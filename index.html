@@ -7,52 +7,106 @@
     <title>Щербаков Евгений | Python Developer</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.6;color:#333;background:linear-gradient(135deg,#667eea15 0%,#764ba215 100%);min-height:100vh}
+        :root{--primary:#7B68EE;--secondary:#9370DB;--bg:#f8f9fa;--text:#333;--card-bg:white;--shadow:rgba(0,0,0,0.1)}
+        [data-theme="dark"]{--bg:#1a1a2e;--text:#e0e0e0;--card-bg:#16213e;--shadow:rgba(0,0,0,0.3)}
+        body{font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;color:var(--text);background:var(--bg);transition:all 0.3s;min-height:100vh}
         .container{max-width:1100px;margin:0 auto;padding:40px 20px}
-        .header{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center;margin-bottom:50px;background:white;border-radius:20px;padding:40px;box-shadow:0 10px 40px rgba(0,0,0,0.1)}
-        .name-banner{background:linear-gradient(135deg,#7B68EE,#9370DB);color:white;padding:15px 30px;border-radius:40px;display:inline-block;margin-bottom:20px;box-shadow:0 4px 15px rgba(123,104,238,0.3)}
-        .name-banner h1{font-size:2em;font-weight:700;letter-spacing:0.5px}
-        .title{font-size:1.3em;color:#7B68EE;font-weight:600;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid #7B68EE}
-        .bio{color:#666;margin-bottom:20px;line-height:1.8}
+        
+        /* Header */
+        .header{display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center;margin-bottom:50px;background:var(--card-bg);border-radius:20px;padding:40px;box-shadow:0 10px 40px var(--shadow);position:relative;overflow:hidden}
+        .header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+        .name-banner{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;padding:15px 30px;border-radius:40px;display:inline-block;margin-bottom:20px;box-shadow:0 4px 15px rgba(123,104,238,0.3)}
+        .name-banner h1{font-size:2em;font-weight:700}
+        .title{font-size:1.3em;color:var(--primary);font-weight:600;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid var(--primary);display:inline-block}
+        .typing-text::after{content:'|';animation:blink 1s infinite}
+        @keyframes blink{50%{opacity:0}}
+        .bio{color:var(--text);opacity:0.8;margin-bottom:20px;line-height:1.8}
         .contact-links{display:flex;gap:15px;flex-wrap:wrap}
-        .contact-links a{color:#7B68EE;text-decoration:none;padding:8px 16px;border-radius:20px;background:#f0e6ff;font-weight:500;transition:all 0.3s}
-        .contact-links a:hover{background:#7B68EE;color:white;transform:translateY(-2px)}
-        .photo-container{width:280px;height:280px;border-radius:50%;overflow:hidden;border:6px solid #7B68EE;box-shadow:0 8px 25px rgba(123,104,238,0.3);margin:0 auto}
-        .photo-container img{width:100%;height:100%;object-fit:cover}
-        .section{background:white;border-radius:15px;padding:35px;margin-bottom:30px;box-shadow:0 5px 20px rgba(0,0,0,0.08)}
-        .section-title{font-size:1.8em;color:#333;margin-bottom:25px;padding-bottom:10px;border-bottom:3px solid #7B68EE;display:inline-block}
-        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
-        .skill-item{background:linear-gradient(135deg,#f8f4ff,#e8e0ff);color:#7B68EE;padding:20px;border-radius:12px;text-align:center;font-weight:600;font-size:1.1em;cursor:pointer;transition:all 0.3s;text-decoration:none;display:block}
-        .skill-item:hover{background:linear-gradient(135deg,#7B68EE,#9370DB);color:white;transform:translateY(-5px);box-shadow:0 8px 20px rgba(123,104,238,0.4)}
-        .project-card{background:#fafafa;border-radius:12px;padding:25px;margin-bottom:25px;border-left:4px solid #7B68EE;transition:all 0.3s}
-        .project-card:hover{background:white;box-shadow:0 5px 20px rgba(123,104,238,0.15);transform:translateX(5px)}
+        .contact-links a{color:var(--primary);text-decoration:none;padding:8px 16px;border-radius:20px;background:rgba(123,104,238,0.1);font-weight:500;transition:all 0.3s}
+        .contact-links a:hover{background:var(--primary);color:white;transform:translateY(-2px)}
+        
+        /* Theme Toggle */
+        .theme-toggle{position:fixed;top:20px;right:20px;background:var(--card-bg);border:none;padding:12px 20px;border-radius:30px;cursor:pointer;box-shadow:0 4px 15px var(--shadow);font-size:1.2em;transition:all 0.3s;z-index:1000}
+        .theme-toggle:hover{transform:scale(1.1)}
+        
+        /* Photo */
+        .photo-container{width:280px;height:280px;border-radius:50%;overflow:hidden;border:6px solid var(--primary);box-shadow:0 8px 25px rgba(123,104,238,0.3);margin:0 auto;position:relative}
+        .photo-container::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:linear-gradient(45deg,transparent,rgba(123,104,238,0.3),transparent);animation:rotate 4s linear infinite;pointer-events:none}
+        @keyframes rotate{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+        .photo-container img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
+        
+        /* Sections */
+        .section{background:var(--card-bg);border-radius:15px;padding:35px;margin-bottom:30px;box-shadow:0 5px 20px var(--shadow);opacity:0;transform:translateY(30px);transition:all 0.6s}
+        .section.visible{opacity:1;transform:translateY(0)}
+        .section-title{font-size:1.8em;color:var(--text);margin-bottom:25px;padding-bottom:10px;border-bottom:3px solid var(--primary);display:inline-block}
+        
+        /* Skills with Progress Bars */
+        .skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:25px}
+        .skill-item{background:rgba(123,104,238,0.1);border-radius:12px;padding:20px;cursor:pointer;transition:all 0.3s}
+        .skill-item:hover{background:var(--primary);color:white;transform:translateY(-5px)}
+        .skill-header{display:flex;justify-content:space-between;margin-bottom:10px;font-weight:600}
+        .progress-bar{background:rgba(0,0,0,0.1);border-radius:10px;height:8px;overflow:hidden}
+        .progress{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:10px;transition:width 1s;width:0}
+        .skill-item:hover .progress{width:var(--progress)}
+        
+        /* Filter Buttons */
+        .filter-container{display:flex;gap:10px;margin-bottom:25px;flex-wrap:wrap}
+        .filter-btn{background:var(--card-bg);border:2px solid var(--primary);color:var(--primary);padding:10px 20px;border-radius:25px;cursor:pointer;font-weight:600;transition:all 0.3s}
+        .filter-btn:hover,.filter-btn.active{background:var(--primary);color:white}
+        
+        /* Projects */
+        .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(350px,1fr));gap:25px}
+        .project-card{background:rgba(123,104,238,0.05);border-radius:12px;padding:25px;border-left:4px solid var(--primary);transition:all 0.3s;cursor:pointer}
+        .project-card:hover{background:var(--card-bg);box-shadow:0 8px 25px var(--shadow);transform:translateX(5px) translateY(-5px)}
         .project-header{display:flex;align-items:center;gap:10px;margin-bottom:15px}
         .project-icon{font-size:1.5em}
-        .project-card h3{color:#333;font-size:1.3em}
-        .project-description{color:#666;margin-bottom:10px}
-        .project-stack{color:#7B68EE;font-weight:600;font-size:0.95em;margin-bottom:15px}
+        .project-card h3{color:var(--text);font-size:1.3em}
+        .project-description{color:var(--text);opacity:0.8;margin-bottom:10px}
+        .project-stack{color:var(--primary);font-weight:600;font-size:0.95em;margin-bottom:15px}
         .project-links{display:flex;gap:12px;flex-wrap:wrap}
-        .project-links a{color:#7B68EE;text-decoration:none;padding:8px 16px;border:2px solid #7B68EE;border-radius:20px;font-weight:600;transition:all 0.3s}
-        .project-links a:hover{background:#7B68EE;color:white}
-        .tabs{display:flex;gap:10px;margin:15px 0;border-bottom:2px solid #e0e0e0}
-        .tab-btn{background:none;border:none;padding:8px 16px;cursor:pointer;color:#666;font-weight:600;border-bottom:3px solid transparent;transition:all 0.3s}
-        .tab-btn.active{color:#7B68EE;border-bottom-color:#7B68EE}
-        .tab-content{display:none}
-        .tab-content.active{display:block;animation:fadeIn 0.3s}
-        @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-        .screenshot-img{width:100%;border-radius:10px;margin:10px 0;box-shadow:0 4px 15px rgba(0,0,0,0.1)}
-        .footer{text-align:center;padding:30px;color:#666;border-top:2px solid #e0e0e0;margin-top:40px}
-        @media(max-width:900px){.header{grid-template-columns:1fr;text-align:center}.photo-container{width:220px;height:220px}.name-banner h1{font-size:1.5em}.skills-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:600px){.skills-grid{grid-template-columns:1fr}.contact-links{justify-content:center}}
+        .project-links a{color:var(--primary);text-decoration:none;padding:8px 16px;border:2px solid var(--primary);border-radius:20px;font-weight:600;transition:all 0.3s}
+        .project-links a:hover{background:var(--primary);color:white}
+        
+        /* Modal */
+        .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:2000;justify-content:center;align-items:center;padding:20px}
+        .modal.active{display:flex}
+        .modal-content{background:var(--card-bg);border-radius:20px;max-width:800px;width:100%;max-height:90vh;overflow-y:auto;padding:40px;position:relative;animation:modalSlide 0.3s}
+        @keyframes modalSlide{from{transform:translateY(-50px);opacity:0}to{transform:translateY(0);opacity:1}}
+        .modal-close{position:absolute;top:20px;right:20px;background:none;border:none;font-size:2em;cursor:pointer;color:var(--text);transition:transform 0.3s}
+        .modal-close:hover{transform:rotate(90deg)}
+        .modal-screenshots{display:grid;gap:15px;margin:20px 0}
+        .modal-screenshot{width:100%;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.2)}
+        
+        /* Contact Form */
+        .contact-form{display:grid;gap:20px}
+        .form-group{display:grid;gap:8px}
+        .form-group label{font-weight:600;color:var(--text)}
+        .form-group input,.form-group textarea{padding:12px;border:2px solid rgba(123,104,238,0.3);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;transition:border-color 0.3s}
+        .form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--primary)}
+        .submit-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;border:none;padding:15px 30px;border-radius:30px;font-weight:600;cursor:pointer;transition:transform 0.3s;box-shadow:0 4px 15px rgba(123,104,238,0.3)}
+        .submit-btn:hover{transform:translateY(-2px)}
+        
+        /* Footer */
+        .footer{text-align:center;padding:30px;color:var(--text);opacity:0.6;border-top:2px solid rgba(123,104,238,0.3);margin-top:40px}
+        
+        /* Mobile */
+        @media(max-width:900px){.header{grid-template-columns:1fr;text-align:center}.photo-container{width:220px;height:220px}.name-banner h1{font-size:1.5em}.skills-grid{grid-template-columns:1fr}.projects-grid{grid-template-columns:1fr}}
+        @media(max-width:600px){.contact-links{justify-content:center}.filter-container{justify-content:center}}
+        
+        /* Scroll Progress */
+        .scroll-progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--primary),var(--secondary));z-index:3000;transition:width 0.1s}
     </style>
 </head>
 <body>
+    <div class="scroll-progress" id="scrollProgress"></div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    
     <div class="container">
         <!-- Header -->
         <div class="header">
             <div>
                 <div class="name-banner"><h1>Щербаков Евгений</h1></div>
-                <div class="title">Student Developer | Python | Web Development</div>
+                <div class="title typing-text" id="typingText"></div>
                 <p class="bio">Студент 2 курса, изучаю программирование. Увлекаюсь разработкой на Python, созданием телеграм-ботов и веб-разработкой. Ищу интересные проекты для портфолио и подработки.</p>
                 <div class="contact-links">
                     <a href="https://t.me/Grim_Lord61" target="_blank">✈️ Telegram</a>
@@ -66,137 +120,266 @@
         </div>
 
         <!-- Skills Section -->
-        <div class="section">
+        <div class="section" id="skills">
             <h2 class="section-title">🛠 Навыки</h2>
             <div class="skills-grid">
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=python&sort=" target="_blank" class="skill-item">Python</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=javascript&sort=" target="_blank" class="skill-item">HTML/CSS</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=sql&sort=" target="_blank" class="skill-item">SQL</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=telegram+bot&type=&language=&sort=" target="_blank" class="skill-item">Telegram Bots</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=parser&type=&language=python&sort=" target="_blank" class="skill-item">Parsing</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank" class="skill-item">Git</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=cpp&sort=" target="_blank" class="skill-item">C++</a>
-                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=landing&type=&sort=" target="_blank" class="skill-item">Web Design</a>
+                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=python&sort=" target="_blank" class="skill-item" style="--progress:85%">
+                    <div class="skill-header"><span>Python</span><span>85%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=javascript&sort=" target="_blank" class="skill-item" style="--progress:70%">
+                    <div class="skill-header"><span>HTML/CSS</span><span>70%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=telegram+bot&type=&sort=" target="_blank" class="skill-item" style="--progress:75%">
+                    <div class="skill-header"><span>Telegram Bots</span><span>75%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=parser&type=&language=python&sort=" target="_blank" class="skill-item" style="--progress:65%">
+                    <div class="skill-header"><span>Parsing</span><span>65%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank" class="skill-item" style="--progress:60%">
+                    <div class="skill-header"><span>SQL</span><span>60%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank" class="skill-item" style="--progress:55%">
+                    <div class="skill-header"><span>Git</span><span>55%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
+                <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=&type=&language=cpp&sort=" target="_blank" class="skill-item" style="--progress:50%">
+                    <div class="skill-header"><span>C++</span><span>50%</span></div>
+                    <div class="progress-bar"><div class="progress"></div></div>
+                </a>
             </div>
         </div>
 
         <!-- Projects Section -->
-        <div class="section">
+        <div class="section" id="projects">
             <h2 class="section-title">📁 Проекты</h2>
-            
-            <!-- Heart Hack -->
-            <div class="project-card">
-                <div class="project-header">
-                    <span class="project-icon">❤️</span>
-                    <h3>Heart Hack</h3>
-                </div>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event,'about-1')">О проекте</button>
-                    <button class="tab-btn" onclick="openTab(event,'screenshots-1')">Скриншоты</button>
-                </div>
-                <div id="about-1" class="tab-content active">
+            <div class="filter-container">
+                <button class="filter-btn active" onclick="filterProjects('all')">Все</button>
+                <button class="filter-btn" onclick="filterProjects('python')">Python</button>
+                <button class="filter-btn" onclick="filterProjects('web')">Web</button>
+                <button class="filter-btn" onclick="filterProjects('bot')">Боты</button>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-category="web" onclick="openModal('heart')">
+                    <div class="project-header"><span class="project-icon">❤️</span><h3>Heart Hack</h3></div>
                     <p class="project-description">Интерактивная романтическая страница в стиле хакерского терминала</p>
-                    <div class="project-stack">Стек: HTML, CSS, JavaScript</div>
+                    <div class="project-stack">HTML, CSS, JavaScript</div>
+                    <div class="project-links">
+                        <a href="https://zenaherbakov6637-lgtm.github.io/valentine-project/" target="_blank">→ Посмотреть</a>
+                        <a href="https://github.com/zenaherbakov6637-lgtm/valentine-project" target="_blank">→ Код</a>
+                    </div>
                 </div>
-                <div id="screenshots-1" class="tab-content">
-                    <img src="https://raw.githubusercontent.com/zenaherbakov6637-lgtm/valentine-project/main/screenshot1.png" alt="Screenshot" class="screenshot-img">
-                </div>
-                <div class="project-links">
-                    <a href="https://zenaherbakov6637-lgtm.github.io/valentine-project/" target="_blank">→ Посмотреть проект</a>
-                    <a href="https://github.com/zenaherbakov6637-lgtm/valentine-project" target="_blank">→ Код</a>
-                </div>
-            </div>
-
-            <!-- Telegram Bot -->
-            <div class="project-card">
-                <div class="project-header">
-                    <span class="project-icon">🤖</span>
-                    <h3>Telegram Bot</h3>
-                </div>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event,'about-2')">О проекте</button>
-                    <button class="tab-btn" onclick="openTab(event,'screenshots-2')">Скриншоты</button>
-                </div>
-                <div id="about-2" class="tab-content active">
+                
+                <div class="project-card" data-category="python bot" onclick="openModal('bot')">
+                    <div class="project-header"><span class="project-icon">🤖</span><h3>Telegram Bot</h3></div>
                     <p class="project-description">Бот для автоматизации задач с использованием Aiogram</p>
-                    <div class="project-stack">Стек: Python, Aiogram, SQLite</div>
+                    <div class="project-stack">Python, Aiogram, SQLite</div>
+                    <div class="project-links">
+                        <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=bot&type=&language=python" target="_blank">→ Все боты</a>
+                    </div>
                 </div>
-                <div id="screenshots-2" class="tab-content">
-                    <p style="color:#999;font-style:italic">Скриншоты скоро появятся...</p>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=bot&type=&language=python" target="_blank">→ Все боты</a>
-                    <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank">→ GitHub</a>
-                </div>
-            </div>
-
-            <!-- Parser -->
-            <div class="project-card">
-                <div class="project-header">
-                    <span class="project-icon">🕷️</span>
-                    <h3>Парсер сайтов</h3>
-                </div>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event,'about-3')">О проекте</button>
-                    <button class="tab-btn" onclick="openTab(event,'screenshots-3')">Скриншоты</button>
-                </div>
-                <div id="about-3" class="tab-content active">
+                
+                <div class="project-card" data-category="python" onclick="openModal('parser')">
+                    <div class="project-header"><span class="project-icon">🕷️</span><h3>Парсер сайтов</h3></div>
                     <p class="project-description">Сбор данных с веб-сайтов и экспорт в CSV/Excel</p>
-                    <div class="project-stack">Стек: Python, BeautifulSoup, Selenium</div>
+                    <div class="project-stack">Python, BeautifulSoup, Selenium</div>
+                    <div class="project-links">
+                        <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=parser&type=&language=python" target="_blank">→ Все парсеры</a>
+                    </div>
                 </div>
-                <div id="screenshots-3" class="tab-content">
-                    <p style="color:#999;font-style:italic">Скриншоты скоро появятся...</p>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=parser&type=&language=python" target="_blank">→ Все парсеры</a>
-                    <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank">→ GitHub</a>
-                </div>
-            </div>
-
-            <!-- Landing -->
-            <div class="project-card">
-                <div class="project-header">
-                    <span class="project-icon">🌐</span>
-                    <h3>Лендинг сайт</h3>
-                </div>
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="openTab(event,'about-4')">О проекте</button>
-                    <button class="tab-btn" onclick="openTab(event,'screenshots-4')">Скриншоты</button>
-                </div>
-                <div id="about-4" class="tab-content active">
+                
+                <div class="project-card" data-category="web" onclick="openModal('landing')">
+                    <div class="project-header"><span class="project-icon">🌐</span><h3>Лендинг сайт</h3></div>
                     <p class="project-description">Адаптивный сайт-визитка для малого бизнеса</p>
-                    <div class="project-stack">Стек: HTML, CSS</div>
-                </div>
-                <div id="screenshots-4" class="tab-content">
-                    <p style="color:#999;font-style:italic">Скриншоты скоро появятся...</p>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=landing&type=" target="_blank">→ Все сайты</a>
-                    <a href="https://github.com/zenaherbakov6637-lgtm" target="_blank">→ GitHub</a>
+                    <div class="project-stack">HTML, CSS</div>
+                    <div class="project-links">
+                        <a href="https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=landing&type=" target="_blank">→ Все сайты</a>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Contact Section -->
+        <div class="section" id="contact">
+            <h2 class="section-title">📬 Связаться со мной</h2>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Сообщение отправлено!');">
+                <div class="form-group">
+                    <label>Ваше имя</label>
+                    <input type="text" required placeholder="Иван Иванов">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" required placeholder="ivan@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Сообщение</label>
+                    <textarea rows="5" required placeholder="Расскажите о проекте..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">📤 Отправить сообщение</button>
+            </form>
+        </div>
+
         <div class="footer">
             <p>© 2026 Щербаков Евгений. Все права защищены.</p>
         </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
     <script>
-        function openTab(evt,tabName){
-            var i,tabContent,tabBtn;
-            tabContent=document.getElementsByClassName("tab-content");
-            for(i=0;i<tabContent.length;i++){
-                tabContent[i].classList.remove("active");
-            }
-            tabBtn=document.getElementsByClassName("tab-btn");
-            for(i=0;i<tabBtn.length;i++){
-                tabBtn[i].classList.remove("active");
-            }
-            document.getElementById(tabName).classList.add("active");
-            evt.currentTarget.classList.add("active");
+        // Theme Toggle
+        function toggleTheme(){
+            const html=document.documentElement;
+            const current=html.getAttribute('data-theme');
+            html.setAttribute('data-theme',current==='dark'?'light':'dark');
+            localStorage.setItem('theme',current==='dark'?'light':'dark');
         }
+        
+        // Load saved theme
+        const savedTheme=localStorage.getItem('theme')||'light';
+        document.documentElement.setAttribute('data-theme',savedTheme);
+        
+        // Typing Effect
+        const texts=['Student Developer','Python Developer','Web Developer'];
+        let textIndex=0,charIndex=0,isDeleting=false;
+        function type(){
+            const current=texts[textIndex];
+            const element=document.getElementById('typingText');
+            if(isDeleting){
+                element.textContent=current.substring(0,charIndex-1);
+                charIndex--;
+            }else{
+                element.textContent=current.substring(0,charIndex+1);
+                charIndex++;
+            }
+            if(!isDeleting&&charIndex===current.length){
+                setTimeout(()=>isDeleting=true,2000);
+            }else if(isDeleting&&charIndex===0){
+                isDeleting=false;
+                textIndex=(textIndex+1)%texts.length;
+            }
+            setTimeout(type,isDeleting?100:200);
+        }
+        type();
+        
+        // Scroll Progress
+        window.onscroll=function(){
+            const winScroll=document.body.scrollTop||document.documentElement.scrollTop;
+            const height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+            const scrolled=(winScroll/height)*100;
+            document.getElementById('scrollProgress').style.width=scrolled+'%';
+        };
+        
+        // Scroll Animation
+        const observer=new IntersectionObserver((entries)=>{
+            entries.forEach(entry=>{
+                if(entry.isIntersecting){
+                    entry.target.classList.add('visible');
+                }
+            });
+        },{threshold:0.1});
+        
+        document.querySelectorAll('.section').forEach(section=>{
+            observer.observe(section);
+        });
+        
+        // Filter Projects
+        function filterProjects(category){
+            document.querySelectorAll('.filter-btn').forEach(btn=>btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.project-card').forEach(card=>{
+                if(category==='all'||card.dataset.category.includes(category)){
+                    card.style.display='block';
+                    setTimeout(()=>card.style.opacity='1',10);
+                }else{
+                    card.style.opacity='0';
+                    setTimeout(()=>card.style.display='none',300);
+                }
+            });
+        }
+        
+        // Modal
+        const modalData={
+            heart:{
+                title:'❤️ Heart Hack',
+                desc:'Интерактивная романтическая страница в стиле хакерского терминала с эффектом взлома сердца',
+                stack:'HTML, CSS, JavaScript',
+                screenshot:'https://raw.githubusercontent.com/zenaherbakov6637-lgtm/valentine-project/main/screenshot1.png',
+                links:[
+                    {text:'→ Посмотреть проект',url:'https://zenaherbakov6637-lgtm.github.io/valentine-project/'},
+                    {text:'→ Код на GitHub',url:'https://github.com/zenaherbakov6637-lgtm/valentine-project'}
+                ]
+            },
+            bot:{
+                title:'🤖 Telegram Bot',
+                desc:'Бот для автоматизации различных задач с использованием современного фреймворка Aiogram',
+                stack:'Python, Aiogram, SQLite',
+                screenshot:'',
+                links:[
+                    {text:'→ Все боты',url:'https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=bot'}
+                ]
+            },
+            parser:{
+                title:'🕷️ Парсер сайтов',
+                desc:'Инструменты для сбора данных с веб-сайтов и экспорта в удобные форматы CSV/Excel',
+                stack:'Python, BeautifulSoup, Selenium',
+                screenshot:'',
+                links:[
+                    {text:'→ Все парсеры',url:'https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=parser'}
+                ]
+            },
+            landing:{
+                title:'🌐 Лендинг сайт',
+                desc:'Адаптивные сайты-визитки для малого бизнеса с современным дизайном',
+                stack:'HTML, CSS, JavaScript',
+                screenshot:'',
+                links:[
+                    {text:'→ Все сайты',url:'https://github.com/zenaherbakov6637-lgtm?tab=repositories&q=landing'}
+                ]
+            }
+        };
+        
+        function openModal(project){
+            const data=modalData[project];
+            const modalBody=document.getElementById('modalBody');
+            let screenshotsHTML='';
+            if(data.screenshot){
+                screenshotsHTML=`<div class="modal-screenshots"><img src="${data.screenshot}" class="modal-screenshot" alt="Screenshot"></div>`;
+            }
+            let linksHTML=data.links.map(link=>`<a href="${link.url}" target="_blank">${link.text}</a>`).join('');
+            modalBody.innerHTML=`
+                <h2>${data.title}</h2>
+                <p style="margin:20px 0;line-height:1.8">${data.desc}</p>
+                <p style="color:var(--primary);font-weight:600;margin-bottom:20px"><strong>Стек:</strong> ${data.stack}</p>
+                ${screenshotsHTML}
+                <div style="margin-top:20px;display:flex;gap:15px;flex-wrap:wrap">${linksHTML}</div>
+            `;
+            document.getElementById('projectModal').classList.add('active');
+            document.body.style.overflow='hidden';
+        }
+        
+        function closeModal(){
+            document.getElementById('projectModal').classList.remove('active');
+            document.body.style.overflow='auto';
+        }
+        
+        document.getElementById('projectModal').addEventListener('click',function(e){
+            if(e.target===this)closeModal();
+        });
+        
+        document.addEventListener('keydown',function(e){
+            if(e.key==='Escape')closeModal();
+        });
     </script>
 </body>
 </html>
